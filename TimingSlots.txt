@@ -1,0 +1,31 @@
+
+# Add Employee_Slot for Saloon Booking Section
+
+class employee_timing_slot(APIView):
+    def get(self, request):
+        uid = request.GET['uid']
+
+        data = employee_name.objects.filter(saloon_id__uid=uid).values('uid','employee_name','employee_image').first()
+
+        for i in range(len(data)):
+
+            mydata = employee_timing.objects.filter(employee_name_id = data[i]['uid']).values('starttime','endtime').first()
+            if mydata:
+                starttime = datetime.combine(date.today(), mydata['starttime'])
+                endtime = datetime.combine(date.today(), mydata['endtime'])
+                duration = int((endtime - starttime).total_seconds()/1800)
+                time_slots = [starttime + timedelta(minutes=i*30) for i in range(duration+1)]
+                return Response({"status":True , 'Employee_data': data,'Time_slots':time_slots})
+            else:
+                return Response({"status":True,'Msg':'Invalid Id'})
+
+
+#Model
+class employee_timing(BaseModel):
+    starttime = models.TimeField(null=True, blank=True)
+    endtime = models.TimeField(null=True, blank=True)
+    employee_name_id = models.ForeignKey(employee_name, blank = True, null = True, on_delete = models.CASCADE)
+
+    def __int__(self):
+        return self.starttime
+

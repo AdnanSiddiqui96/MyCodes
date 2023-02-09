@@ -1,0 +1,9 @@
+class Salon_Sub_detail(APIView):
+    def get(self, request):
+        uid = request.GET['uid']
+
+        mydata = services_list.objects.filter(saloon_id__uid=uid)
+
+        data = UserSerializer(mydata, many=True).data
+
+        return Response({"status":True,'service_Data':data})

@@ -1,0 +1,20 @@
+
+class addimages(APIView):
+    def post(self, request):    
+        image = request.data.getlist('image')
+        saloon_name = request.data.get('saloon_name')
+        saloon_id = request.data.get('saloon_id')
+        address = request.data.get('address')
+
+        objsaloon_id = saloon_image.objects.filter(uid = saloon_id).first()
+
+        sliderObj = saloon(saloon_name = saloon_name , image = image , address = address)
+        sliderObj.save()    
+
+ 
+        for i in range(len(image)):
+            
+            imageObj = saloon_image(saloon_id = sliderObj,image =image[i])
+            imageObj.save()
+
+        return Response({"status":True,"message":"images Add successfully"})

@@ -1,0 +1,23 @@
+class Stu_Class_Get(APIView):
+   def get(self, request):
+        requireFields = ['uid']
+        validator = uc.keyValidation(True,True,request.GET,requireFields)
+
+        if validator:
+            return Response(validator,status = 200)
+        
+        else:
+            uid = request.GET['uid']
+
+
+            saloonname = saloon.objects.filter(service_id__uid=uid).values('saloon_name')
+
+            for i in range(len(saloonname)):
+
+                student_data = saloon.objects.filter(service_id__uid=uid).values('image', 'address')
+                
+                if saloonname:         
+                    saloonname[i]['Saloon_Detail'] = student_data
+                else:
+                    saloonname[i]['Student'] =''
+            return Response({"status":True,'saloon_Data':saloonname,})

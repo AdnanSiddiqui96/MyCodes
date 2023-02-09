@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/18039680/django-get-only-date-from-datetime-strptime

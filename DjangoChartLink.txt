@@ -1,0 +1,1 @@
+https://www.section.io/engineering-education/integrating-chart-js-in-django/

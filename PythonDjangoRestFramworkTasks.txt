@@ -1,0 +1,10 @@
+				TASK to be Completed in PYTHON(Django REST framwork)
+
+
+1-	simple CRUD.
+2-	Relations.
+3- 	Authentications.
+4-	Authorizations.
+5-	Validations.
+6-	Permissions.
+7-	OTP Sending E-mails.

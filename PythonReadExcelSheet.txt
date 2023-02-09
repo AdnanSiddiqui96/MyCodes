@@ -1,0 +1,23 @@
+import pandas as pd
+import os
+import shutil
+
+def makeAllFile(dfo='data',df='myecg.xlsx'):
+    all = os.listdir('/content/task')# Make List of all files of folders. 
+    filesP ='/content/task/'#Get files in this folder.
+    myP ='/content/'#File will be copy in this folder.
+    if (not os.path.isdir(myP+dfo)):#Check if folder exist.  
+      os.makedirs(myP+dfo)#Make new FOlder.
+      myP+=dfo
+    dataframe1 = pd.read_excel('/content/sample_data/'+df)#Get Data from Ecxel file.
+    ecg =  dataframe1['ECG_ID'].tolist()#get required colums from excel data.
+    lab =  dataframe1['mylabel'].tolist()##get required colums from excel data.
+    for i in range(len(lab)):     
+        folder =lab[i]#Get the folder name of ecxel data.#Loop in File List to move in other folder(in above code).
+        if(not os.path.isfile(myP+'/'+folder+'/'+ecg[i]+'.h5')):#Check wherther the file is allready not  exist.(optional)
+         if(not os.path.isdir(myP+'/'+folder)):#Check if the folder is not exist and make new.
+                 os.makedirs(myP+'/'+folder)#Make the new folder
+         if(os.path.isfile(filesP+ecg[i]+'.h5')):
+                shutil.copy(filesP+ecg[i]+'.h5',myP+'/'+folder+'/'+ecg[i]+'.h5')#copy the file.         
+    print('file copied')
+makeAllFile('data1')

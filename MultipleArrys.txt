@@ -1,0 +1,27 @@
+			Multipe Arrys
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import *
+from django.db.models import F
+
+class Stu_Class_Get(APIView):
+   def get(self, request):
+      id = request.GET['id']
+
+      data = Class_name.objects.filter(id=id).values('id','Class')
+      # print("len=======",data[0]['id'])
+
+      for i in range(len(data)):
+
+         student_data = Student.objects.filter(classid__id=data[i]['id']).values('id','name','email')
+          
+         for j in range(len(student_data)):
+
+          if  data:         
+              data[i]['student_data'] = student_data
+              
+          else:
+            data[i]['Student'] =''
+
+      return Response({"status":True,'data':data,})

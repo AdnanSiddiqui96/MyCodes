@@ -1,0 +1,40 @@
+Code For Serializer
+
+from rest_framework import serializers
+from .models import *
+
+
+class CateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Products_Category
+        fields = ['Sub_Category_name']
+
+class ResturantProductsSerializer(serializers.ModelSerializer):
+    Sub_Category_Id = CateSerializer(many=False, read_only=True)
+    class Meta:
+        model = Resturant_Products
+        fields = ['uid','Product_Name','Description','Product_Price','Rating','Sub_Category_Id', 'images']
+
+class ResturantProductsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resturant_Products_Image
+        fields = ['img']
+
+
+Code For View
+
+
+class GetproductUser(APIView):
+    def get(self, request):
+      try:    
+
+         uid = request.GET['uid']
+
+         queryset = Resturant_Products.objects.filter(Resturant_Accountt_Id=uid)
+         serializer_class = ResturantProductsSerializer(queryset,many=True).data
+                                                                                                
+         return Response({"status":True,'Data':serializer_class})
+
+      except Exception as e:
+            
+         return Response({'Message':"Internal Server Error"})

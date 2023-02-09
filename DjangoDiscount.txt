@@ -1,0 +1,18 @@
+from django.db.models import Case, When, Value, IntegerField
+
+discounted_products = Product.objects.annotate(
+    discounted_price=Case(
+        When(on_sale=True, then=Value(0.9)*F('price')),
+        default=Value(F('price')),
+        output_field=IntegerField()
+    )
+)
+
+
+
+
+In this example, Product is a model and on_sale is a boolean
+ field on the model that indicates whether a product is on sale or not.
+ The Case statement checks whether on_sale is True, and if so, calculates the 
+discounted price as 90% of the original price. If on_sale is False, the original price is used.
+ The output_field argument is used to specify the type of the output field, in this case an IntegerField.

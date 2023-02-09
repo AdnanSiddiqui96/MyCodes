@@ -1,0 +1,7 @@
+
+def calculate_percentage(part, whole):
+  return 100 * float(part)/float(whole)
+
+
+percentage = calculate_percentage(50, 200)
+print("Percentage:", percentage, "%")
